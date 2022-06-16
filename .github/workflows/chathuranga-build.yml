@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Publish
-      run: dotnet publish ${{ github.workspace }}/AnimalAdoption.Web.Portal\AnimalAdoption.Web.Portal.csproj  -c Release -o release — nologo
+      run: dotnet publish ${{ github.workspace }}\AnimalAdoption.Web.Portal\AnimalAdoption.Web.Portal.csproj  -c Release -o release — nologo
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
