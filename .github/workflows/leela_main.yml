@@ -55,7 +55,6 @@ jobs:
           app-name: TeamTigerWebApp
           publish-profile: ${{ secrets.TEAM_TIGER_WEB_APP }}
           package: ./taa-portal/
-          startup-command: dotnet AnimalAdoption.Web.Portal.dll
           
           
        
