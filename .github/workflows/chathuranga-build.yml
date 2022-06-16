@@ -12,14 +12,18 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 3.1.x
+        
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build --no-restore
+      
     - name: Publish
-      run: dotnet publish ${{ github.workspace}}\AnimalAdoption.Web.Portal\AnimalAdoption.Web.Portal.csproj -c Release -o release — nologo
+      run: dotnet publish ${{ github.workspace }}/AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj  --configuration Release --no-build --output ./release/
+      
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        path: ${{ github.workspace}}\AnimalAdoption.Web.Portal\elease\
+        path: ${{ github.workspace}}/release/
