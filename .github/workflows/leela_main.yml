@@ -1,0 +1,36 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 3.1.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Test
+      run: dotnet test ${{ github.workspace }}/AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj --configuration Release --no-build
+  
+    - name: Publish
+      run: dotnet publish ${{ github.workspace }}/AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj  --configuration Release --no-build --output ./taa-portal/
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        path: ${{ github.workspace }}/taa-portal/
