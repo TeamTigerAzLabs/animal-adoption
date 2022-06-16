@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: drop
-        path: ${{ github.workspace }}\taa-portal\
+        path: ${{ github.workspace }}/taa-portal/
 
   release:
 
