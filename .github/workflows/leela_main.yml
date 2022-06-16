@@ -33,6 +33,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
+        name: drop
         path: ${{ github.workspace }}/taa-portal/
 
   release:
@@ -44,6 +45,7 @@ jobs:
        - name: download 
          uses: actions/download-artifact@v3.0.0
          with:
+           name: drop
            path: ./taa-portal/
          
        - name: Azure WebApp
