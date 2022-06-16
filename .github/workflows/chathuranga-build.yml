@@ -3,6 +3,8 @@ name: .NET
 on:
   push:
     branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -14,14 +16,18 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 3.1.x
+      
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore
+  
     - name: Publish
-      run: dotnet publish ${{ github.workspace }}\AnimalAdoption.Web.Portal\AnimalAdoption.Web.Portal.csproj  -c Release -o release — nologo
+      run: dotnet publish ${{ github.workspace }}/AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj  --configuration Release --no-build --output ./taa-portal/
+    
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        path: /home/runner/work/AnimalAdoption.Web.Portal/release/
+        path: ${{ github.workspace }}/taa-portal/
