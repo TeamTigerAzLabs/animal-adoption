@@ -103,6 +103,18 @@ jobs:
            template: ./bicep/deploy.bicep
            deploymentName: production
            parameters:  tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=TeamTigerPlanProd keyVaultName=TeamTigerKeyVaultProd webAppName=TeamTigerWebAppProd resourceGroupServicePrincipalManagedApplicationObjectId=c771ce99-6491-477f-9eb6-d1c176d43d1c
+                   
+        - name: Download Web App 
+          uses: actions/download-artifact@v3.0.0
+          with:
+           name: drop
+           path: ./taa-portal
+         
+        - name: Azure WebApp
+          uses: Azure/webapps-deploy@v2
+          with:
+           app-name: TeamTigerWebAppProd
+           package: ./taa-portal/
           
         - uses: Azure/get-keyvault-secrets@v1
           with:
