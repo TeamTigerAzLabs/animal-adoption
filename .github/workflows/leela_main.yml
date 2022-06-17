@@ -104,4 +104,15 @@ jobs:
            deploymentName: production
            parameters:  tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=TeamTigerPlanProd keyVaultName=TeamTigerKeyVaultProd webAppName=TeamTigerWebAppProd resourceGroupServicePrincipalManagedApplicationObjectId=c771ce99-6491-477f-9eb6-d1c176d43d1c
           
-       
+        - uses: Azure/get-keyvault-secrets@v1
+          with:
+           keyvault: "TeamTigerKeyVaultProd"
+           secrets: 'GlobalPassword, SimulatedFailureChance'
+           id: myGetSecretAction
+          
+        - name: Set Web App ACR authentication
+          uses: Azure/appservice-settings@v1
+          with:
+           app-name: 'TeamTigerWebAppProd'
+           app-settings-json: '[{ "name": "GlobalPassword", "value": "${{ steps.myGetSecretAction.outputs.GlobalPassword }}", "slotSetting": false }, { "name": "SimulatedFailureChance", "value": "${{ steps.myGetSecretAction.outputs.SimulatedFailureChance }}", "slotSetting": false }]'
+         
