@@ -56,5 +56,15 @@ jobs:
           publish-profile: ${{ secrets.TEAM_TIGER_WEB_APP }}
           package: ./taa-portal/
           
+       - name: Azure Login
+         uses: Azure/login@v1.4.4
+         with:
+          creds: ${{ secrets.TEAM_TIGER_SERVICE_PRINCIPLE }}
+          
+       - name: Set Web App ACR authentication
+         uses: Azure/appservice-settings@v1
+         with:
+          app-name: 'TeamTigerWebApp'
+          app-settings-json: ${{ secrets.TEAM_TIGER_APP_SETTINGS }}
           
        
