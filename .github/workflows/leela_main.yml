@@ -35,6 +35,12 @@ jobs:
       with:
         name: drop
         path: ${{ github.workspace }}/taa-portal/
+        
+    - name: Upload a Bicep Template
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: bicep
+        path: deploy.bicep
 
   release:
        if: github.ref == 'refs/heads/master'
