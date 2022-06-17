@@ -78,6 +78,30 @@ jobs:
           app-name: 'TeamTigerWebApp'
           app-settings-json: '[{ "name": "GlobalPassword", "value": "${{ steps.myGetSecretAction.outputs.GlobalPassword }}", "slotSetting": false }, { "name": "SimulatedFailureChance", "value": "${{ steps.myGetSecretAction.outputs.SimulatedFailureChance }}", "slotSetting": false }]'
          
-           
+  release_to_prod:
+     if: github.ref == 'refs/heads/master'
+     runs-on: ubuntu-latest
+     needs: build
+       
+     steps:
+        - name: download 
+          uses: actions/download-artifact@v3.0.0
+          with:
+           name: bicep
+           path: deploy.bicep
+       
+        - name: Azure Login
+          uses: Azure/login@v1.4.4
+          with:
+            creds: ${{ secrets.TEAM_TIGER_SERVICE_PRINCIPLE_PROD }} 
+            
+        - name: Deploy Azure Resource Manager (ARM) Template
+          uses: Azure/arm-deploy@v1.0.8
+          with:
+           subscriptionId: cfe96ac1-4cd0-40ad-9751-b18802bf8822
+           resourceGroupName: DevOpsGitHub-2022-06-16-team-01-prod
+           template: bicep/deploy.bicep
+           deploymentName: production
+           parameters:  tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=TeamTigerProd keyVaultName=TeamTigerKeyVault webAppName=TeamTigerWebAppProd resourceGroupServicePrincipalManagedApplicationObjectId=c771ce99-6491-477f-9eb6-d1c176d43d1c
           
        
