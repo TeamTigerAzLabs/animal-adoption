@@ -65,6 +65,6 @@ jobs:
          uses: Azure/appservice-settings@v1
          with:
           app-name: 'TeamTigerWebApp'
-          app-settings-json: ${{ secrets.TEAM_TIGER_APP_SETTINGS }}
+          app-settings-json: '[{ "name": "GlobalPassword", "value": "${{ secrets.TEAM_TIGER_GLOBAL_PASSWORD }}", "slotSetting": false }, { "name": "SimulatedFailureChance", "value": "0", "slotSetting": false }]'
           
        
