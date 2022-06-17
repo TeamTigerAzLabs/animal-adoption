@@ -108,11 +108,11 @@ jobs:
           with:
            keyvault: "TeamTigerKeyVaultProd"
            secrets: 'GlobalPassword, SimulatedFailureChance'
-           id: myGetSecretAction
+          id: myGetSecretProdAction
           
         - name: Set Web App ACR authentication
           uses: Azure/appservice-settings@v1
           with:
            app-name: 'TeamTigerWebAppProd'
-           app-settings-json: '[{ "name": "GlobalPassword", "value": "${{ steps.myGetSecretAction.outputs.GlobalPassword }}", "slotSetting": false }, { "name": "SimulatedFailureChance", "value": "${{ steps.myGetSecretAction.outputs.SimulatedFailureChance }}", "slotSetting": false }]'
+           app-settings-json: '[{ "name": "GlobalPassword", "value": "${{ steps.myGetSecretProdAction.outputs.GlobalPassword }}", "slotSetting": false }, { "name": "SimulatedFailureChance", "value": "${{ steps.myGetSecretProdAction.outputs.SimulatedFailureChance }}", "slotSetting": false }]'
          
